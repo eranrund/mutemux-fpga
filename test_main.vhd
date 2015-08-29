@@ -121,12 +121,12 @@ BEGIN
    -- Stimulus process
    stim_proc: process
 
-              procedure write_spi(w_data : in std_logic_vector(7 downto 0)) is
+              procedure write_spi(w_data : in std_logic_vector(15 downto 0)) is
               begin
                       spi_cs <= '0';
 
-                      for i in 0 to 7 loop
-                              spi_mosi <= w_data(7-i);
+                      for i in 0 to 15 loop
+                              spi_mosi <= w_data(15-i);
                               wait for spi_clk_period/2;
 
                               spi_clk <= '1';
@@ -145,11 +145,15 @@ BEGIN
       -- hold reset state for 100 ns.
       wait for 100 ns;	
 
-      write_spi(x"01");		
+      write_spi(x"8101"); -- 81 = 1000 0001 = write mux1 sel
 		wait for 50 ns;
 		
-		write_spi(x"02");
-
+		write_spi(x"8102"); -- write mux1 sel with "2"
+		wait for 50ns;
+		
+		write_spi(x"8202");
+		wait for 50ns;
+		write_spi(x"8200");
       wait;
    end process;
 

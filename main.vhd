@@ -31,7 +31,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity main is
     Generic (   
-        N : positive := 8;                                         -- 32bit serial word length is default
+        N : positive := 16;                                         -- 32bit serial word length is default
         CPOL : std_logic := '0';                                    -- SPI mode selection (mode 0 default)
         CPHA : std_logic := '1';                                    -- CPOL = clock polarity, CPHA = clock phase.
         PREFETCH : positive := 2;                                   -- prefetch lookahead cycles
@@ -66,8 +66,9 @@ architecture Behavioral of main is
     signal rx_bit_reg_s : std_logic;
     signal state_s : std_logic_vector (5 downto 0);
 
-	 -- mux1
+	 -- muxes
 	 signal mux1_cfg : std_logic_vector (3 downto 0);
+ 	signal mux2_cfg : std_logic_vector (3 downto 0);
 
 begin
 
@@ -107,10 +108,32 @@ begin
 			S => mux1_cfg
 		);
 		
-		spi_process : process (clk, do_valid_s, do_s) begin
+		Inst_mux2: entity work.mux
+		 port map(
+			clk_i => clk,
+			I1 => midi1_in,
+			I2 => midi2_in,
+			I3 => midi1_in,
+			I4 => midi1_in,
+			O => midi2_out,
+			S => mux2_cfg
+		);
+		
+		spi_process : process (clk, do_valid_s, do_s)
+			variable spi_cmd : std_logic_vector(7 downto 0);
+		begin
 		  --if clk'event and clk = '1' then
 		      if do_valid_s'event and do_valid_s = '1' then
-					mux1_cfg <= do_s(3 downto 0);
+					spi_cmd := do_s(15 downto 8);
+					
+					case spi_cmd is
+						when x"81" =>
+							mux1_cfg <= do_s(3 downto 0);
+						when x"82" =>
+							mux2_cfg <= do_s(3 downto 0);
+						when others =>
+							
+					end case;
 				end if;
 		 -- end if;
 		end process;
