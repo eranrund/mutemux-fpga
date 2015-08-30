@@ -43,6 +43,10 @@ entity main is
            midi1_out : out  STD_LOGIC;
            midi2_in : in  STD_LOGIC;
            midi2_out : out  STD_LOGIC;
+			  midi3_in : in  STD_LOGIC;
+           midi3_out : out  STD_LOGIC;
+			  midi4_in : in  STD_LOGIC;
+           midi4_out : out  STD_LOGIC;
            spi_cs : in  STD_LOGIC;
            spi_clk : in  STD_LOGIC;
            spi_mosi : in  STD_LOGIC;
@@ -102,8 +106,8 @@ begin
 			clk_i => clk,
 			I1 => midi1_in,
 			I2 => midi2_in,
-			I3 => midi1_in,
-			I4 => midi1_in,
+			I3 => midi3_in,
+			I4 => midi4_in,
 			O => midi1_out,
 			S => mux1_cfg
 		);
@@ -113,8 +117,8 @@ begin
 			clk_i => clk,
 			I1 => midi1_in,
 			I2 => midi2_in,
-			I3 => midi1_in,
-			I4 => midi1_in,
+			I3 => midi3_in,
+			I4 => midi4_in,
 			O => midi2_out,
 			S => mux2_cfg
 		);

@@ -46,6 +46,10 @@ ARCHITECTURE behavior OF test_main IS
          midi1_out : OUT  std_logic;
          midi2_in : IN  std_logic;
          midi2_out : OUT  std_logic;
+			midi3_in : IN  std_logic;
+         midi3_out : OUT  std_logic;
+			midi4_in : IN  std_logic;
+         midi4_out : OUT  std_logic;
          spi_cs : IN  std_logic;
          spi_clk : IN  std_logic;
          spi_mosi : IN  std_logic;
@@ -58,6 +62,8 @@ ARCHITECTURE behavior OF test_main IS
    signal clk : std_logic := '0';
    signal midi1_in : std_logic := '0';
    signal midi2_in : std_logic := '0';
+   signal midi3_in : std_logic := '0';
+   signal midi4_in : std_logic := '0';	
    signal spi_cs : std_logic := '1';
    signal spi_clk : std_logic := '0';
    signal spi_mosi : std_logic := '0';
@@ -65,6 +71,9 @@ ARCHITECTURE behavior OF test_main IS
  	--Outputs
    signal midi1_out : std_logic;
    signal midi2_out : std_logic;
+   signal midi3_out : std_logic;
+   signal midi4_out : std_logic;
+
    signal spi_miso : std_logic;
 
    -- Clock period definitions
@@ -80,6 +89,10 @@ BEGIN
           midi1_out => midi1_out,
           midi2_in => midi2_in,
           midi2_out => midi2_out,
+			 midi3_in => midi3_in,
+			 midi3_out => midi3_out,
+			 midi4_in => midi4_in,
+			 midi4_out => midi4_out,
           spi_cs => spi_cs,
           spi_clk => spi_clk,
           spi_mosi => spi_mosi,
@@ -96,17 +109,32 @@ BEGIN
    end process;
 	
 	midi1_generator : process begin
-		midi2_in <= '1';
+		midi1_in <= '1';
 		wait for 15 ns;
-		midi2_in <= '0';
+		midi1_in <= '0';
 		wait for 15 ns;
 	end process;
 	
 	midi2_generator : process begin
-		midi1_in <= '1';
+		midi2_in <= '1';
 		wait for 7 ns;
-		midi1_in <= '0';
+		midi2_in <= '0';
 		wait for 3 ns;
+	end process;
+	
+	midi3_generator : process begin
+		midi3_in <= '1';
+		wait for 2 ns;
+		midi3_in <= '0';
+		wait for 20 ns;
+	end process;
+	
+	
+	midi4_generator : process begin
+		midi4_in <= '1';
+		wait for 2 ns;
+		midi4_in <= '0';
+		wait for 20 ns;
 	end process;
  
 --   spi_clk_process :process
@@ -153,7 +181,7 @@ BEGIN
 		
 		write_spi(x"8202");
 		wait for 50ns;
-		write_spi(x"8200");
+		write_spi(x"8203");
       wait;
    end process;
 

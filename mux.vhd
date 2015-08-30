@@ -49,9 +49,11 @@ begin
 	begin
     if clk_i'event and clk_i = '1' then
 		case S is
-			when "0000" => O <= 'Z';
-			when "0001" => O <= I1;
-			when "0010" => O <= I2;
+			when x"0" => O <= 'Z';
+			when x"1" => O <= I1;
+			when x"2" => O <= I2;
+			when x"3" => O <= I3;
+			when x"4" => O <= I4;
 			when others => O <= 'Z';
 		end case;
        --O<= 'Z' when "0000",
