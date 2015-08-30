@@ -42,14 +42,9 @@ ARCHITECTURE behavior OF test_main IS
     COMPONENT main
     PORT(
          clk : IN  std_logic;
-         midi1_in : IN  std_logic;
-         midi1_out : OUT  std_logic;
-         midi2_in : IN  std_logic;
-         midi2_out : OUT  std_logic;
-			midi3_in : IN  std_logic;
-         midi3_out : OUT  std_logic;
-			midi4_in : IN  std_logic;
-         midi4_out : OUT  std_logic;
+         midi_in : IN  std_logic_vector(15 downto 0);
+         midi_out : OUT  std_logic_vector(15 downto 0);
+
          spi_cs : IN  std_logic;
          spi_clk : IN  std_logic;
          spi_mosi : IN  std_logic;
@@ -60,20 +55,13 @@ ARCHITECTURE behavior OF test_main IS
 
    --Inputs
    signal clk : std_logic := '0';
-   signal midi1_in : std_logic := '0';
-   signal midi2_in : std_logic := '0';
-   signal midi3_in : std_logic := '0';
-   signal midi4_in : std_logic := '0';	
+   signal midi_in : std_logic_vector(15 downto 0) := (others => '1');
    signal spi_cs : std_logic := '1';
    signal spi_clk : std_logic := '0';
    signal spi_mosi : std_logic := '0';
 
  	--Outputs
-   signal midi1_out : std_logic;
-   signal midi2_out : std_logic;
-   signal midi3_out : std_logic;
-   signal midi4_out : std_logic;
-
+   signal midi_out : std_logic_vector(15 downto 0) := (others => 'Z');
    signal spi_miso : std_logic;
 
    -- Clock period definitions
@@ -85,14 +73,8 @@ BEGIN
 	-- Instantiate the Unit Under Test (UUT)
    uut: main PORT MAP (
           clk => clk,
-          midi1_in => midi1_in,
-          midi1_out => midi1_out,
-          midi2_in => midi2_in,
-          midi2_out => midi2_out,
-			 midi3_in => midi3_in,
-			 midi3_out => midi3_out,
-			 midi4_in => midi4_in,
-			 midi4_out => midi4_out,
+          midi_in => midi_in,
+          midi_out => midi_out,
           spi_cs => spi_cs,
           spi_clk => spi_clk,
           spi_mosi => spi_mosi,
@@ -109,31 +91,31 @@ BEGIN
    end process;
 	
 	midi1_generator : process begin
-		midi1_in <= '1';
+		midi_in(1) <= '1';
 		wait for 15 ns;
-		midi1_in <= '0';
+		midi_in(1) <= '0';
 		wait for 15 ns;
 	end process;
 	
 	midi2_generator : process begin
-		midi2_in <= '1';
+		midi_in(2) <= '1';
 		wait for 7 ns;
-		midi2_in <= '0';
+		midi_in(2) <= '0';
 		wait for 3 ns;
 	end process;
 	
 	midi3_generator : process begin
-		midi3_in <= '1';
+		midi_in(3) <= '1';
 		wait for 2 ns;
-		midi3_in <= '0';
+		midi_in(3) <= '0';
 		wait for 20 ns;
 	end process;
 	
 	
 	midi4_generator : process begin
-		midi4_in <= '1';
+		midi_in(4) <= '1';
 		wait for 2 ns;
-		midi4_in <= '0';
+		midi_in(4) <= '0';
 		wait for 20 ns;
 	end process;
  

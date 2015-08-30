@@ -39,14 +39,8 @@ entity main is
         );                                  
 
     Port ( clk : in  STD_LOGIC;
-	        midi1_in : in  STD_LOGIC;
-           midi1_out : out  STD_LOGIC;
-           midi2_in : in  STD_LOGIC;
-           midi2_out : out  STD_LOGIC;
-			  midi3_in : in  STD_LOGIC;
-           midi3_out : out  STD_LOGIC;
-			  midi4_in : in  STD_LOGIC;
-           midi4_out : out  STD_LOGIC;
+	        midi_in : in  STD_LOGIC_VECTOR(15 downto 0);
+           midi_out : out  STD_LOGIC_VECTOR(15 downto 0);
            spi_cs : in  STD_LOGIC;
            spi_clk : in  STD_LOGIC;
            spi_mosi : in  STD_LOGIC;
@@ -104,22 +98,22 @@ begin
 		 Inst_mux1: entity work.mux
 		 port map(
 			clk_i => clk,
-			I1 => midi1_in,
-			I2 => midi2_in,
-			I3 => midi3_in,
-			I4 => midi4_in,
-			O => midi1_out,
+			I1 => midi_in(1),
+			I2 => midi_in(2),
+			I3 => midi_in(3),
+			I4 => midi_in(4),
+			O => midi_out(0),
 			S => mux1_cfg
 		);
 		
 		Inst_mux2: entity work.mux
 		 port map(
 			clk_i => clk,
-			I1 => midi1_in,
-			I2 => midi2_in,
-			I3 => midi3_in,
-			I4 => midi4_in,
-			O => midi2_out,
+			I1 => midi_in(1),
+			I2 => midi_in(2),
+			I3 => midi_in(3),
+			I4 => midi_in(4),
+			O => midi_out(1),
 			S => mux2_cfg
 		);
 		
